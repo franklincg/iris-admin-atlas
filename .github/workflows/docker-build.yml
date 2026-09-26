@@ -1,0 +1,17 @@
+name: docker-build
+on:
+  push:
+    paths:
+      - "Dockerfile"
+      - "Installer.cls"
+      - "iris.script"
+      - "module.xml"
+      - "web/**"
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build IRIS Admin Atlas image
+        run: docker build -t iris-admin-atlas .

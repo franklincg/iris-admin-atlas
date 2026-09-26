@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS">
+  <Document name="iris-admin-atlas.ZPM">
+    <Module>
+      <Name>iris-admin-atlas</Name>
+      <Version>1.0.0</Version>
+      <Description>Read-only management cockpit for InterSystems IRIS SysAdmin APIs</Description>
+      <Keywords>IRIS,SysAdmin,REST,management,monitoring,security</Keywords>
+      <Packaging>module</Packaging>
+      <CSPApplication CookiePath="/csp/admin-atlas/" DefaultTimeout="900" DeployPath="${cspdir}/admin-atlas" MatchRoles=":${dbrole}" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" SourcePath="/web" UnauthenticatedEnabled="0" Url="/csp/admin-atlas" UseSessionCookie="2"/>
+    </Module>
+  </Document>
+</Export>

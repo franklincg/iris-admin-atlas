@@ -4,7 +4,7 @@
     <Module>
       <Name>iris-admin-atlas</Name>
       <Version>1.0.0</Version>
-      <Description>Read-only management cockpit for InterSystems IRIS SysAdmin APIs</Description>
+      <Description>Read-only management cockpit for InterSystems IRIS SysAdmin APIs and operational discovery</Description>
       <Keywords>IRIS,SysAdmin,REST,management,monitoring,security</Keywords>
       <Packaging>module</Packaging>
       <CSPApplication CookiePath="/csp/admin-atlas/" DefaultTimeout="900" DeployPath="${cspdir}/admin-atlas" MatchRoles=":${dbrole}" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" SourcePath="/web" UnauthenticatedEnabled="0" Url="/csp/admin-atlas" UseSessionCookie="2"/>

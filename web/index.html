@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>IRIS Admin Atlas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">INTERSYSTEMS IRIS · SYSADMIN COCKPIT</p>
+      <h1>IRIS Admin Atlas</h1>
+      <p class="subtitle">Search the management surface, preview requests, run safe reads, and keep a local audit trail.</p>
+    </div>
+    <div class="status-stack">
+      <div id="connectionPill" class="pill neutral">Not checked</div>
+      <button id="connectBtn" class="secondary">Check IRIS</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel catalog-panel">
+      <div class="panel-head">
+        <div>
+          <h2>Action Atlas</h2>
+          <p>Curated from the official SysAdmin API specification.</p>
+        </div>
+        <span id="actionCount" class="count"></span>
+      </div>
+      <input id="search" class="search" placeholder="Search path, privilege, category or purpose" autocomplete="off">
+      <div id="filters" class="filters"></div>
+      <div id="catalog" class="catalog"></div>
+    </section>
+
+    <section class="panel runner-panel">
+      <div class="panel-head">
+        <div>
+          <p id="selectedCategory" class="eyebrow">REQUEST BUILDER</p>
+          <h2 id="selectedTitle">Choose an action</h2>
+        </div>
+        <span id="riskBadge" class="pill neutral">—</span>
+      </div>
+
+      <div class="meta-grid">
+        <div><span>Method</span><strong id="methodValue">—</strong></div>
+        <div><span>Path</span><strong id="pathValue">—</strong></div>
+        <div><span>Privilege</span><strong id="privilegeValue">—</strong></div>
+      </div>
+
+      <label>
+        Query parameters <small>JSON object</small>
+        <textarea id="queryInput" spellcheck="false">{}</textarea>
+      </label>
+      <label>
+        Request body <small>JSON; ignored for GET/DELETE without a body</small>
+        <textarea id="bodyInput" spellcheck="false">{}</textarea>
+      </label>
+
+      <div class="guard">
+        <div>
+          <strong>Write guard</strong>
+          <p>Mutating requests stay locked until explicitly enabled for this browser session.</p>
+        </div>
+        <button id="writeToggle" class="secondary">Enable writes</button>
+      </div>
+
+      <div class="actions">
+        <button id="runBtn" disabled>Run request</button>
+        <button id="curlBtn" class="secondary" disabled>Copy cURL</button>
+        <button id="clearBtn" class="ghost">Clear response</button>
+      </div>
+
+      <div class="response-head">
+        <h3>Response</h3>
+        <span id="responseMeta"></span>
+      </div>
+      <pre id="responseBox">Select an action to begin.</pre>
+    </section>
+
+    <section class="panel overview-panel">
+      <div class="panel-head">
+        <div>
+          <h2>Live Overview</h2>
+          <p>Read-only snapshot from the current IRIS instance.</p>
+        </div>
+        <button id="refreshOverview" class="secondary">Refresh</button>
+      </div>
+      <div id="overviewCards" class="overview-cards">
+        <article><span>Server</span><strong>—</strong><small>Run “Check IRIS”</small></article>
+        <article><span>Processes</span><strong>—</strong><small>/v2/processes</small></article>
+        <article><span>Web apps</span><strong>—</strong><small>/v2/web-apps</small></article>
+        <article><span>Tasks</span><strong>—</strong><small>/v2/tasks</small></article>
+      </div>
+    </section>
+
+    <section class="panel history-panel">
+      <div class="panel-head">
+        <div>
+          <h2>Local Run History</h2>
+          <p>Stored only in this browser. Response bodies are truncated before storage.</p>
+        </div>
+        <div class="inline-actions">
+          <button id="exportHistory" class="secondary">Export JSON</button>
+          <button id="clearHistory" class="ghost">Clear</button>
+        </div>
+      </div>
+      <div id="history" class="history"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>IRIS Admin Atlas · MIT licensed</span>
+    <a href="https://github.com/franklincg/iris-admin-atlas" target="_blank" rel="noreferrer">Source</a>
+    <a href="https://github.com/intersystems-community/sysadmin-api-specification" target="_blank" rel="noreferrer">Official API specification</a>
+  </footer>
+
+  <script src="catalog.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

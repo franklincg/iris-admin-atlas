@@ -4,26 +4,71 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
+  <meta name="description" content="IRIS Admin Atlas — a safe, searchable management cockpit for InterSystems IRIS SysAdmin APIs.">
   <title>IRIS Admin Atlas</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="topbar">
-    <div>
+    <div class="brand-block">
       <p class="eyebrow">INTERSYSTEMS IRIS · SYSADMIN COCKPIT</p>
       <h1>IRIS Admin Atlas</h1>
-      <p class="subtitle">Search the management surface, preview requests, run safe reads, and keep a local audit trail.</p>
+      <p class="subtitle">Find the right management API fast, inspect live operational state, and keep every write behind a visible safety boundary.</p>
+      <div class="hero-tags">
+        <span>Privilege-aware</span><span>Read-safe</span><span>Searchable</span><span>Audit-friendly</span>
+      </div>
     </div>
     <div class="status-stack">
-      <div id="connectionPill" class="pill neutral">Not checked</div>
-      <button id="connectBtn" class="secondary">Check IRIS</button>
+      <div id="connectionPill" class="pill neutral">Preview mode</div>
+      <button id="connectBtn" class="primary">Connect to IRIS</button>
+      <button id="demoBtn" class="secondary">Load sample snapshot</button>
     </div>
   </header>
 
   <main class="layout">
+    <section class="panel overview-panel hero-panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">OPERATIONAL SNAPSHOT</p>
+          <h2>What needs attention right now?</h2>
+          <p id="overviewHint">Sample data is shown until you connect to the current IRIS instance.</p>
+        </div>
+        <div class="inline-actions">
+          <button id="refreshOverview" class="secondary">Refresh live data</button>
+        </div>
+      </div>
+      <div id="overviewCards" class="overview-cards">
+        <article data-key="server"><span>Server</span><strong>Preview</strong><small>Connection state</small></article>
+        <article data-key="processes"><span>Processes</span><strong>18</strong><small>Running processes</small></article>
+        <article data-key="webapps"><span>Web apps</span><strong>12</strong><small>Configured applications</small></article>
+        <article data-key="users"><span>Users</span><strong>9</strong><small>Security principals</small></article>
+        <article data-key="tasks"><span>Tasks</span><strong>7</strong><small>Scheduled jobs</small></article>
+        <article data-key="audit"><span>Audit</span><strong>On</strong><small>Security audit state</small></article>
+      </div>
+      <div class="snapshot-grid">
+        <article class="snapshot-card">
+          <div class="snapshot-head"><h3>Processes</h3><span id="processesMeta">sample</span></div>
+          <div id="processesPreview" class="mini-table"></div>
+        </article>
+        <article class="snapshot-card">
+          <div class="snapshot-head"><h3>Web applications</h3><span id="appsMeta">sample</span></div>
+          <div id="appsPreview" class="mini-table"></div>
+        </article>
+        <article class="snapshot-card">
+          <div class="snapshot-head"><h3>Scheduled tasks</h3><span id="tasksMeta">sample</span></div>
+          <div id="tasksPreview" class="mini-table"></div>
+        </article>
+        <article class="snapshot-card">
+          <div class="snapshot-head"><h3>Users & security</h3><span id="usersMeta">sample</span></div>
+          <div id="usersPreview" class="mini-table"></div>
+        </article>
+      </div>
+    </section>
+
     <section class="panel catalog-panel">
       <div class="panel-head">
         <div>
+          <p class="eyebrow">DISCOVER</p>
           <h2>Action Atlas</h2>
           <p>Curated from the official SysAdmin API specification.</p>
         </div>
@@ -54,52 +99,39 @@
         <textarea id="queryInput" spellcheck="false">{}</textarea>
       </label>
       <label>
-        Request body <small>JSON; ignored for GET/DELETE without a body</small>
+        Request body <small>JSON; used by read-only POST searches where required</small>
         <textarea id="bodyInput" spellcheck="false">{}</textarea>
       </label>
 
       <div class="guard">
         <div>
-          <strong>Write guard</strong>
-          <p>Mutating requests stay locked until explicitly enabled for this browser session.</p>
+          <strong>Safety boundary</strong>
+          <p>Only catalog entries classified as read-only can run. Mutating actions remain preview-only.</p>
         </div>
-        <button id="writeToggle" class="secondary">Enable writes</button>
+        <button id="writeToggle" class="secondary">Explain guard</button>
       </div>
 
       <div class="actions">
-        <button id="runBtn" disabled>Run request</button>
-        <button id="curlBtn" class="secondary" disabled>Copy cURL</button>
+        <button id="runBtn" disabled>Run safe request</button>
+        <button id="curlBtn" class="secondary" disabled>Copy request preview</button>
         <button id="clearBtn" class="ghost">Clear response</button>
       </div>
 
       <div class="response-head">
-        <h3>Response</h3>
-        <span id="responseMeta"></span>
-      </div>
-      <pre id="responseBox">Select an action to begin.</pre>
-    </section>
-
-    <section class="panel overview-panel">
-      <div class="panel-head">
         <div>
-          <h2>Live Overview</h2>
-          <p>Read-only snapshot from the current IRIS instance.</p>
+          <h3>Response</h3>
+          <small id="responseMeta"></small>
         </div>
-        <button id="refreshOverview" class="secondary">Refresh</button>
       </div>
-      <div id="overviewCards" class="overview-cards">
-        <article><span>Server</span><strong>—</strong><small>Run “Check IRIS”</small></article>
-        <article><span>Processes</span><strong>—</strong><small>/v2/processes</small></article>
-        <article><span>Web apps</span><strong>—</strong><small>/v2/web-apps</small></article>
-        <article><span>Tasks</span><strong>—</strong><small>/v2/tasks</small></article>
-      </div>
+      <pre id="responseBox">Select an action to inspect its endpoint, privilege requirement and execution safety.</pre>
     </section>
 
     <section class="panel history-panel">
       <div class="panel-head">
         <div>
+          <p class="eyebrow">TRACEABILITY</p>
           <h2>Local Run History</h2>
-          <p>Stored only in this browser. Response bodies are truncated before storage.</p>
+          <p>Stored only in this browser. Response bodies are never persisted.</p>
         </div>
         <div class="inline-actions">
           <button id="exportHistory" class="secondary">Export JSON</button>
